@@ -41,6 +41,7 @@ new class extends Component
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center">
                 <h3>Gestión de categorias</h3>
+                <a href="{{ route('categories.create') }}" class="btn btn-primary">Agregar</a>
             </div>
             <hr>
         </div>
@@ -71,6 +72,13 @@ new class extends Component
                     @foreach($categories as $category)
                     <tr>
                         <td>{{ $category->name }}</td>
+                        <td>
+                            @if($category->is_active)
+                            <div class="badge text-bg-success">Activo</div>
+                            @else
+                            <div class="badge text-bg-secondary">Inactivo</div>
+                            @endif
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
