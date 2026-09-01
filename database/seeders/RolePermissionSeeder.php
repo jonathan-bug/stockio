@@ -30,7 +30,10 @@ class RolePermissionSeeder extends Seeder
             'roles.edit',
             'roles.activate',
             'roles.deactivate',
-            'roles.permissions'
+            'roles.permissions',
+
+            // Categories
+            'categories.index'
         ];
 
         foreach ($permissions as $permission) {

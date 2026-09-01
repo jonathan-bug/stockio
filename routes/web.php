@@ -17,6 +17,9 @@ Route::middleware('auth')->group(function () {
   Route::livewire('/roles/create', 'pages::roles.create')->middleware('permission:roles.create')->name('roles.create');
   Route::livewire('/roles/edit/{role}', 'pages::roles.edit')->middleware('permission:roles.edit')->name('roles.edit');
   Route::livewire('/roles/permissions/{role}', 'pages::roles.permissions')->middleware('permission:roles.permissions')->name('roles.permissions');
+
+  // Categorias
+  Route::livewire('/categories', 'pages::categories.index')->middleware('permission:categories.index')->name('categories.index');
 });
 
 // Seguridad
