@@ -58,6 +58,12 @@ new class extends Component
                         <span>Categorias</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('products.index') }}" class="nav-link {{ request()->routeIs('products.index') ? 'active' : '' }}" wire:navigate>
+                        <i class="fa fa-cubes"></i>
+                        <span>Products</span>
+                    </a>
+                </li>
             </ul>
 
             <!-- Logout -->
