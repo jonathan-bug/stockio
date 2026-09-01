@@ -27,6 +27,8 @@ new class extends Component
     {
         $categories = Category::when($this->search, function ($query) {
             $query->where('name', 'like', '%' . $this->search . '%');
+        })->when($this->is_active !== '', function ($query) {
+            $query->where('is_active', (int) $this->is_active);
         })->paginate(10);
 
         return $this->view([
