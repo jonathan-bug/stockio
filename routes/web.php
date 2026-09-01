@@ -10,7 +10,7 @@ Route::middleware('auth')->group(function () {
   // Usuarios
   Route::livewire('/users', 'pages::users.index')->middleware('permission:users.index')->name('users.index');
   Route::livewire('/users/create', 'pages::users.create')->middleware('permission:users.create')->name('users.create');
-  Route::livewire('/users/edit/{id}', 'pages::users.edit')->middleware('permission:users.edit')->name('users.edit');
+  Route::livewire('/users/edit/{user}', 'pages::users.edit')->middleware('permission:users.edit')->name('users.edit');
 
   // Roles
   Route::livewire('/roles', 'pages::roles.index')->middleware('permission:roles.index')->name('roles.index');
