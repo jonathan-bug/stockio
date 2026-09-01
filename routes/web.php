@@ -21,6 +21,7 @@ Route::middleware('auth')->group(function () {
   // Categorias
   Route::livewire('/categories', 'pages::categories.index')->middleware('permission:categories.index')->name('categories.index');
   Route::livewire('/categories/create', 'pages::categories.create')->middleware('permission:categories.create')->name('categories.create');
+  Route::livewire('/categories/edit/{category}', 'pages::categories.edit')->middleware('permission:categories.edit')->name('categories.edit');
 });
 
 // Seguridad

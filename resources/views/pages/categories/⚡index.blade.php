@@ -43,7 +43,7 @@ new class extends Component
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center">
                 <h3>Gestión de categorias</h3>
-                <a href="{{ route('categories.create') }}" class="btn btn-primary">Agregar</a>
+                <a href="{{ route('categories.create') }}" class="btn btn-primary" wire:navigate>Agregar</a>
             </div>
             <hr>
         </div>
@@ -80,6 +80,18 @@ new class extends Component
                             @else
                             <div class="badge text-bg-secondary">Inactivo</div>
                             @endif
+                        </td>
+                        <td>
+                            <div class="d-flex justify-content-end gap-2">
+                                @can('categories.edit')
+                                <a href="{{ route('categories.edit', $category) }}" class="btn btn-warning" wire:navigate>
+                                    <i class="fa fa-pen"></i>
+                                </a>
+                                @endcan
+                                @if($category->is_active)
+                                @else
+                                @endif
+                            </div>
                         </td>
                     </tr>
                     @endforeach

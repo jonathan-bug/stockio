@@ -34,7 +34,8 @@ class RolePermissionSeeder extends Seeder
 
             // Categories
             'categories.index',
-            'categories.create'
+            'categories.create',
+            'categories.edit'
         ];
 
         foreach ($permissions as $permission) {
