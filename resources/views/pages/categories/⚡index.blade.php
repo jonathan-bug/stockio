@@ -35,6 +35,26 @@ new class extends Component
             'categories' => $categories
         ]);
     }
+
+    public function deactivate(int $id)
+    {
+        $category = Category::findOrFail($id);
+        $category->update([
+            'is_active' => false
+        ]);
+
+        $this->dispatch('alert', message: 'Category deactivated successfully');
+    }
+
+    public function activate(int $id)
+    {
+        $category = Category::findOrFail($id);
+        $category->update([
+            'is_active' => true
+        ]);
+
+        $this->dispatch('alert', message: 'Category activated successfully');
+    }
 };
 ?>
 
@@ -89,7 +109,17 @@ new class extends Component
                                 </a>
                                 @endcan
                                 @if($category->is_active)
+                                @can('categories.deactivate')
+                                <button class="btn btn-danger" wire:click="deactivate({{ $category->id }})">
+                                    <i class="fa fa-user-slash"></i>
+                                </button>
+                                @endcan
                                 @else
+                                @can('categories.activate')
+                                <button class="btn btn-success" wire:click="activate({{ $category->id }})">
+                                    <i class="fa fa-rotate-left"></i>
+                                </button>
+                                @endcan
                                 @endif
                             </div>
                         </td>
