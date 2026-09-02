@@ -63,6 +63,7 @@ new class extends Component {
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center">
                 <h3>Gestión de productos</h3>
+                <a href="{{ route('products.create') }}" class="btn btn-primary" wire:navigate>Agregar</a>
             </div>
             <hr>
         </div>
@@ -106,8 +107,16 @@ new class extends Component {
                     <tr>
                         <td>{{ $product->barcode }}</td>
                         <td>{{ $product->name }}</td>
+                        <td>{{ $product->category->name }}</td>
                         <td>{{ $product->sales_price }}</td>
-                        <td>{{ $product->is_active }}</td>
+                        <td>{{ $product->minimum_stock }}</td>
+                        <td>
+                            @if($product->is_active)
+                            <span class="badge bg-success">Activo</span>
+                            @else
+                            <span class="badge bg-secondary">Inactivo</span>
+                            @endif
+                        </td>
                         <td>
                             <div class="d-flex justify-content-end gap-2">
 
