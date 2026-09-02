@@ -15,6 +15,8 @@ class RolePermissionSeeder extends Seeder
      */
     public function run(): void
     {
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+
         // Permission
         $permissions = [
             // Users
@@ -44,26 +46,31 @@ class RolePermissionSeeder extends Seeder
             'products.create',
             'products.edit',
             'products.activate',
-            'products.deactivate'
+            'products.deactivate',
+
+            //Suppliers
+            'suppliers.index'
         ];
 
         foreach ($permissions as $permission) {
-            Permission::create([
+            Permission::firstOrCreate([
                 'name' => $permission
             ]);
         }
 
         // Role
-        $role = Role::create([
+        $role = Role::firstOrCreate([
             'name' => 'Administrator'
         ]);
 
         // Asign permission to role
-        $permissions = Permission::whereIn('name', $permissions)->get();
-        $role->givePermissionTo($permissions);
+        $role->syncPermissions($permissions);
 
         // Asign role to user
         $user = User::where('email', 'test@example.com')->firstOrFail();
-        $user->assignRole($role);
+
+        if (!$user->hasRole($role)) {
+            $user->assignRole($role);
+        }
     }
 }

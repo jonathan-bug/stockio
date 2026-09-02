@@ -64,6 +64,12 @@ new class extends Component
                         <span>Products</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('suppliers.index') }}" class="nav-link {{ request()->routeIs('suppliers.index') ? 'active' : '' }}" wire:navigate>
+                        <i class="fa fa-truck"></i>
+                        <span>Proveedores</span>
+                    </a>
+                </li>
             </ul>
 
             <!-- Logout -->

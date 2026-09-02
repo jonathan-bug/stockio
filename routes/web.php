@@ -27,6 +27,9 @@ Route::middleware('auth')->group(function () {
   Route::livewire('/products', 'pages::products.index')->middleware('permission:products.index')->name('products.index');
   Route::livewire('/products/create', 'pages::products.create')->middleware('permission:products.create')->name('products.create');
   Route::livewire('/products/edit/{product}', 'pages::products.edit')->middleware('permission:products.edit')->name('products.edit');
+
+  // Proveedores
+  Route::livewire('/suppliers', 'pages::suppliers.index')->middleware('permission:suppliers.index')->name('suppliers.index');
 });
 
 // Seguridad
