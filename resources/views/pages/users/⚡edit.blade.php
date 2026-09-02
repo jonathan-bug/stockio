@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -12,7 +13,7 @@ new class extends Component
 {
     public $name = '';
     public $email = '';
-    public $is_active = false;
+    public $is_active = 0;
     public $role = 0;
     public $password = '';
 
@@ -37,12 +38,19 @@ new class extends Component
             'name' => 'required',
             'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($this->user->id)],
             'role' => ['required', 'exists:roles,id'],
-            'is_active' => 'required|boolean'
+            'is_active' => 'boolean'
         ]);
 
         $this->user->name = $this->name;
         $this->user->email = $this->email;
         $this->user->is_active = $this->is_active;
+
+        if ($this->user->id == Auth::id() && !$this->user->is_active) {
+            $this->dispatch('alert', message: 'You cannot deactivate yourself', type: 'danger');
+
+            return;
+        }
+
         $this->user->save();
 
         $role = Role::findOrFail($this->role);
@@ -117,7 +125,7 @@ new class extends Component
                     <div class="col-6">
                         <div class="form-group">
                             <label for="is_active" class="form-label">Estado</label>
-                            <select id="is_active" class="form-select" wire:model.boolean="is_active">
+                            <select id="is_active" class="form-select" wire:model="is_active">
                                 <option value="1">Activo</option>
                                 <option value="0">Inactivo</option>
                             </select>
