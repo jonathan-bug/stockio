@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () {
 
   // Proveedores
   Route::livewire('/suppliers', 'pages::suppliers.index')->middleware('permission:suppliers.index')->name('suppliers.index');
+  Route::livewire('/suppliers/create', 'pages::suppliers.create')->middleware('permission:suppliers.create')->name('suppliers.create');
 });
 
 // Seguridad

@@ -46,6 +46,7 @@ new class extends Component
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center">
                 <h3>Gestión de proveedores</h3>
+                <a href="{{ route('suppliers.create') }}" class="btn btn-primary" wire:navigate>Agregar</a>
             </div>
             <hr>
         </div>
@@ -74,7 +75,23 @@ new class extends Component
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                    @foreach($suppliers as $supplier)
+                    <tr>
+                        <td>{{ $supplier->name }}</td>
+                        <td>{{ $supplier->phone }}</td>
+                        <td>{{ $supplier->email ?: '-' }}</td>
+                        <td>
+                            @if($supplier->is_active)
+                            <span class="badge bg-success">Activo</span>
+                            @else
+                            <span class="badge bg-secondary">Inactivo</span>
+                            @endif
+                        </td>
+                        <td></td>
+                    </tr>
+                    @endforeach
+                </tbody>
             </table>
         </div>
         <div class="col-12">
