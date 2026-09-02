@@ -13,7 +13,7 @@ new class extends Component
     public $category = 0;
     public $sales_price = 0;
     public $minimum_stock = 0;
-    public $is_active = true;
+    public $is_active = 1;
 
     public Collection $categories;
 
@@ -115,7 +115,7 @@ new class extends Component
                     <div class="col-6">
                         <div class="form-group">
                             <label for="is_active" class="form-label">Estado</label>
-                            <select id="is_active" class="form-select" wire:model.boolean="is_active">
+                            <select id="is_active" class="form-select" wire:model="is_active">
                                 <option value="1">Activo</option>
                                 <option value="0">Inactivo</option>
                             </select>

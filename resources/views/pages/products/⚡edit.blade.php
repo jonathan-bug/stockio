@@ -130,7 +130,9 @@ new class extends Component
                         </div>
                     </div>
                     <div class="col-12">
-                        <button type="submit" class="btn btn-success">Guardar</button>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-success">Guardar</button>
+                        </div>
                     </div>
                 </div>
             </form>
