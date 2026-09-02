@@ -3,7 +3,6 @@
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
-use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 new class extends Component
@@ -13,14 +12,23 @@ new class extends Component
     public $category = 0;
     public $sales_price = 0;
     public $minimum_stock = 0;
-    public $is_active = true;
+    public $is_active = 0;
 
+    public Product $product;
     public Collection $categories;
 
-    public function mount()
+
+    public function mount(Product $product)
     {
-        $this->categories = Category::all();
-        $this->category = $this->categories->first()?->id ?? 0;
+        $this->product = $product;
+        $this->categories = Category::where('is_active', true)->orWhere('id', $this->product->category->id)->get();
+
+        $this->barcode = $this->product->barcode;
+        $this->name = $this->product->name;
+        $this->category = $this->product->category->id;
+        $this->sales_price = $this->product->sales_price;
+        $this->minimum_stock = $this->product->minimum_stock;
+        $this->is_active = $this->product->is_active;
     }
 
     public function save()
@@ -31,10 +39,10 @@ new class extends Component
             'category' => ['required', 'exists:categories,id'],
             'sales_price' => ['required', 'numeric', 'decimal:0,2', 'min:0'],
             'minimum_stock' => ['required', 'numeric', 'min:0'],
-            'is_active' => ['required', 'boolean']
+            'is_active' => ['boolean']
         ]);
 
-        Product::create([
+        $this->product->update([
             'barcode' => $this->barcode,
             'name' => $this->name,
             'category_id' => $this->category,
@@ -43,10 +51,7 @@ new class extends Component
             'is_active' => $this->is_active
         ]);
 
-        $this->reset('barcode', 'name', 'category', 'sales_price', 'minimum_stock', 'is_active');
-        $this->category = $this->categories->first()?->id ?? 0;
-
-        $this->dispatch('alert', message: 'Product created successfully');
+        $this->dispatch('alert', message: 'Product updated successfully');
     }
 };
 ?>
@@ -55,8 +60,8 @@ new class extends Component
     <div class="row g-3">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center">
-                <h3>Crear producto</h3>
-                <a href="{{ route('products.index') }}" class="btn btn-secondary">Volver</a>
+                <h3>Editar producto</h3>
+                <a href="{{ route('products.index') }}" class="btn btn-secondary" wire:navigate>Volver</a>
             </div>
             <hr>
         </div>
@@ -106,7 +111,7 @@ new class extends Component
                     <div class="col-6">
                         <div class="form-group">
                             <label for="minimum_stock" class="form-label">Stock mínimo</label>
-                            <input id="minimum_stock" type="number" step="1" class="form-control" wire:model="minimum_stock">
+                            <input id="minimum_stock" type="number" class="form-control" wire:model="minimum_stock">
                             @error('minimum_stock')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -115,16 +120,17 @@ new class extends Component
                     <div class="col-6">
                         <div class="form-group">
                             <label for="is_active" class="form-label">Estado</label>
-                            <select id="is_active" class="form-select" wire:model.boolean="is_active">
+                            <select id="is_active" class="form-select" wire:model="is_active">
                                 <option value="1">Activo</option>
                                 <option value="0">Inactivo</option>
                             </select>
+                            @error('is_active')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-12">
-                        <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-success">Guardar</button>
-                        </div>
+                        <button type="submit" class="btn btn-success">Guardar</button>
                     </div>
                 </div>
             </form>

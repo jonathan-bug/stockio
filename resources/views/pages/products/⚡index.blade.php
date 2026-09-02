@@ -119,7 +119,11 @@ new class extends Component {
                         </td>
                         <td>
                             <div class="d-flex justify-content-end gap-2">
-
+                                @can('products.edit')
+                                <a href="{{ route('products.edit', $product) }}" class="btn btn-warning">
+                                    <i class="fa fa-pen"></i>
+                                </a>
+                                @endcan
                             </div>
                         </td>
                     </tr>
