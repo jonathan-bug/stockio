@@ -55,6 +55,26 @@ new class extends Component {
             'products' => $products
         ]);
     }
+
+    public function activate(int $id)
+    {
+        $product = Product::findOrFail($id);
+        $product->update([
+            'is_active' => true
+        ]);
+
+        $this->dispatch('alert', message: 'Product activated successfully');
+    }
+
+    public function deactivate(int $id)
+    {
+        $product = Product::findOrFail($id);
+        $product->update([
+            'is_active' => false
+        ]);
+
+        $this->dispatch('alert', message: 'Product deactivated successfully');
+    }
 };
 ?>
 
@@ -105,7 +125,7 @@ new class extends Component {
                 <tbody>
                     @foreach($products as $product)
                     <tr>
-                        <td>{{ $product->barcode }}</td>
+                        <td>{{ $product->barcode ?: '-' }}</td>
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->category->name }}</td>
                         <td>{{ $product->sales_price }}</td>
@@ -120,10 +140,23 @@ new class extends Component {
                         <td>
                             <div class="d-flex justify-content-end gap-2">
                                 @can('products.edit')
-                                <a href="{{ route('products.edit', $product) }}" class="btn btn-warning">
+                                <a href="{{ route('products.edit', $product) }}" class="btn btn-warning" wire:navigate>
                                     <i class="fa fa-pen"></i>
                                 </a>
                                 @endcan
+                                @if($product->is_active)
+                                @can('products.deactivate')
+                                <button class="btn btn-danger" wire:click="deactivate({{ $product->id }})">
+                                    <i class="fa fa-user-slash"></i>
+                                </button>
+                                @endcan
+                                @else
+                                @can('products.activate')
+                                <button class="btn btn-success" wire:click="activate({{ $product->id }})">
+                                    <i class="fa fa-rotate-left"></i>
+                                </button>
+                                @endcan
+                                @endif
                             </div>
                         </td>
                     </tr>

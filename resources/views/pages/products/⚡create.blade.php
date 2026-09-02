@@ -56,7 +56,7 @@ new class extends Component
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center">
                 <h3>Crear producto</h3>
-                <a href="{{ route('products.index') }}" class="btn btn-secondary">Volver</a>
+                <a href="{{ route('products.index') }}" class="btn btn-secondary" wire:navigate>Volver</a>
             </div>
             <hr>
         </div>
