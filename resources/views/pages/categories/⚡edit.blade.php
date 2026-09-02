@@ -7,7 +7,7 @@ use Livewire\Component;
 new class extends Component {
     #[Validate('required')]
     public $name = '';
-    public $is_active = '';
+    public $is_active = 0;
     public Category $category;
 
     public function mount(Category $category)
@@ -19,7 +19,10 @@ new class extends Component {
 
     public function save()
     {
-        $this->validate();
+        $this->validate([
+            'name' => 'required',
+            'is_active' => 'required'
+        ]);
 
         $this->category->update([
             'name' => $this->name,
@@ -55,7 +58,7 @@ new class extends Component {
                     <div class="col-6">
                         <div class="form-group">
                             <label for="is_active" class="form-label">Estado</label>
-                            <select id="is_active" class="form-select" wire:model.boolean="is_active">
+                            <select id="is_active" class="form-select" wire:model="is_active">
                                 <option value="1">Activo</option>
                                 <option value="0">Inactivo</option>
                             </select>
