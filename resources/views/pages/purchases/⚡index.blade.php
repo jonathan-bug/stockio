@@ -62,6 +62,7 @@ new class extends Component
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center">
                 <h3>Gestión de compras</h3>
+                <a href="{{ route('purchases.create') }}" class="btn btn-primary" wire:navigate>Agregar</a>
             </div>
             <hr>
         </div>
@@ -103,11 +104,19 @@ new class extends Component
                 <tbody>
                     @foreach($purchases as $purchase)
                     <tr>
-                        <td>{{ $purchase->invoice_number }}</td>
+                        <td>{{ $purchase->invoice_number ?: '-' }}</td>
                         <td>{{ $purchase->supplier->name }}</td>
                         <td>{{ $purchase->total }}</td>
                         <td>{{ $purchase->date }}</td>
-                        <td>{{ $purchase->status }}</td>
+                        <td>
+                            @if($purchase->status == 1)
+                            <span class="badge bg-dark">Pendiente</span>
+                            @elseif($purchase->status == 2)
+                            <span class="badge bg-warning">Aplicada parcialmente</span>
+                            @elseif($purchase->status == 3)
+                            <span class="badge bg-success">Aplicada</span>
+                            @endif
+                        </td>
                         <td></td>
                     </tr>
                     @endforeach
