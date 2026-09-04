@@ -57,7 +57,8 @@ class RolePermissionSeeder extends Seeder
 
             // Purchases
             'purchases.index',
-            'purchases.create'
+            'purchases.create',
+            'purchases.edit'
         ];
 
         foreach ($permissions as $permission) {

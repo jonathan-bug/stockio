@@ -73,7 +73,7 @@ new class extends Component
                 </div>
                 <div class="col-md-3">
                     <select class="form-select" wire:model.live="supplier">
-                        <option value="">Todos</option>
+                        <option value="">Todos los proveedores</option>
                         @foreach($suppliers as $supplier)
                         <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
                         @endforeach
@@ -117,7 +117,15 @@ new class extends Component
                             <span class="badge bg-success">Aplicada</span>
                             @endif
                         </td>
-                        <td></td>
+                        <td>
+                            <div class="d-flex justify-content-end gap-2">
+                                @can('purchases.edit')
+                                <a href="{{ route('purchases.edit', $purchase) }}" class="btn btn-warning" wire:navigate>
+                                    <i class="fa fa-pen"></i>
+                                </a>
+                                @endcan
+                            </div>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>

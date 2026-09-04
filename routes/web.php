@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
   // Compras
   Route::livewire('/purchases', 'pages::purchases.index')->middleware('permission:purchases.index')->name('purchases.index');
   Route::livewire('/purchases/create', 'pages::purchases.create')->middleware('permission:purchases.create')->name('purchases.create');
+  Route::livewire('/purchases/edit/{purchase}', 'pages::purchases.edit')->middleware('permission:purchases.edit')->name('purchases.edit');
 });
 
 // Seguridad
