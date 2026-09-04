@@ -38,6 +38,26 @@ new class extends Component
             'suppliers' => $suppliers
         ]);
     }
+
+    public function activate(int $id)
+    {
+        $supplier = Supplier::findOrFail($id);
+        $supplier->update([
+            'is_active' => true
+        ]);
+
+        $this->dispatch('alert', message: 'Supplier activated successfully');
+    }
+
+    public function deactivate(int $id)
+    {
+        $supplier = Supplier::findOrFail($id);
+        $supplier->update([
+            'is_active' => false
+        ]);
+
+        $this->dispatch('alert', message: 'Supplier deactivated successfully');
+    }
 };
 ?>
 
@@ -95,6 +115,19 @@ new class extends Component
                                     <i class="fa fa-pen"></i>
                                 </a>
                                 @endcan
+                                @if($supplier->is_active)
+                                @can('suppliers.deactivate')
+                                <button class="btn btn-danger" wire:click="deactivate({{ $supplier->id }})">
+                                    <i class="fa fa-user-slash"></i>
+                                </button>
+                                @endcan
+                                @else
+                                @can('suppliers.activate')
+                                <button class="btn btn-success" wire:click="activate({{ $supplier->id }})">
+                                    <i class="fa fa-rotate-left"></i>
+                                </button>
+                                @endcan
+                                @endif
                             </div>
                         </td>
                     </tr>
