@@ -88,7 +88,15 @@ new class extends Component
                             <span class="badge bg-secondary">Inactivo</span>
                             @endif
                         </td>
-                        <td></td>
+                        <td>
+                            <div class="d-flex justify-content-end gap-2">
+                                @can('suppliers.edit')
+                                <a href="{{ route('suppliers.edit', $supplier) }}" class="btn btn-warning" wire:navigate>
+                                    <i class="fa fa-pen"></i>
+                                </a>
+                                @endcan
+                            </div>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
