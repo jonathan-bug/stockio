@@ -15,7 +15,7 @@ new class extends Component
         $this->validate([
             'name' => 'required',
             'phone' => 'required',
-            'email' => 'nullable',
+            'email' => ['nullable', 'email'],
             'is_active' => ['required', 'boolean']
         ]);
 
