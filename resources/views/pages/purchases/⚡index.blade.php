@@ -54,6 +54,20 @@ new class extends Component
             'purchases' => $purchases
         ]);
     }
+
+    public function delete(int $id)
+    {
+        $purchase = Purchase::findOrFail($id);
+
+        if ($purchase->status != 1) {
+            $this->dispatch('alert', message: 'Purchase cannot be deleted', type: 'danger');
+            return;
+        }
+
+        $purchase->delete();
+
+        $this->dispatch('alert', message: 'Purchase deleted successfully');
+    }
 };
 ?>
 
@@ -123,6 +137,11 @@ new class extends Component
                                 <a href="{{ route('purchases.edit', $purchase) }}" class="btn btn-warning" wire:navigate>
                                     <i class="fa fa-pen"></i>
                                 </a>
+                                @endcan
+                                @can('purchases.delete')
+                                <button class="btn btn-danger" wire:click="delete({{ $purchase->id }})">
+                                    <i class="fa fa-trash"></i>
+                                </button>
                                 @endcan
                             </div>
                         </td>
