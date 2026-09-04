@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('invoice_number')->nullable();
             $table->date('date');
             $table->decimal('total', 10, 2);
+            $table->unsignedTinyInteger('status')->default(1);
             $table->foreignId('supplier_id')
                 ->constrained()
                 ->cascadeOnDelete();

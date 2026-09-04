@@ -70,6 +70,12 @@ new class extends Component
                         <span>Proveedores</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('purchases.index') }}" class="nav-link {{ request()->routeIs('purchases.index') ? 'active' : '' }}" wire:navigate>
+                        <i class="fa fa-cart-flatbed"></i>
+                        <span>Compras</span>
+                    </a>
+                </li>
             </ul>
 
             <!-- Logout -->
