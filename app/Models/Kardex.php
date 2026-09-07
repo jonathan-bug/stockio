@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable('product_id', 'type', 'quantity', 'stock', 'description', 'user_id')]
 class Kardex extends Model
 {
+    protected $table = 'kardex';
+
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);

@@ -1,9 +1,13 @@
 <?php
 
+use App\Models\Kardex;
 use App\Models\Product;
+use App\Models\ProductStock;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 new class extends Component
@@ -157,16 +161,60 @@ new class extends Component
         });
     }
 
+    public function hasUnsavedDetails(): bool
+    {
+        $savedDetails = $this->purchase->details()
+            ->get()
+            ->map(function ($detail) {
+                return [
+                    'id' => $detail->id,
+                    'product_id' => $detail->product_id,
+                    'quantity' => $detail->quantity,
+                    'unit_cost' => $detail->unit_cost,
+                    'is_applied' => $detail->is_applied
+                ];
+            })->toArray();
+
+        return $savedDetails != $this->details;
+    }
+
     public function applyDetails()
     {
-        $details = $this->purchase->details()->where('is_applied', false)->get();
-        foreach ($details as $detail) {
-            $detail->update([
-                'is_applied' => true
-            ]);
+        if ($this->hasUnsavedDetails()) {
+            $this->dispatch('alert', message: 'The pending changes must be saved before to apply details', type: 'warning');
+            return;
         }
 
-        $this->updateStatus();
+        DB::transaction(function () {
+            $details = $this->purchase->details()
+                ->where('is_applied', false)
+                ->get();
+
+            foreach ($details as $detail) {
+                $stock = ProductStock::firstOrCreate(
+                    ['product_id' => $detail->product_id],
+                    ['quantity' => 0]
+                );
+
+                $stock->increment('quantity', $detail->quantity);
+
+                Kardex::create([
+                    'product_id' => $detail->product_id,
+                    'type' => 1,
+                    'quantity' => $detail->quantity,
+                    'stock' => $stock->fresh()->quantity,
+                    'description' => 'Entrada por compra #' . $this->purchase->id,
+                    'user_id' => Auth::id()
+                ]);
+
+                $detail->update([
+                    'is_applied' => true
+                ]);
+            }
+
+            $this->updateStatus();
+        });
+
         $this->details = $this->purchase->details()
             ->get()
             ->map(function ($detail) {
@@ -290,10 +338,12 @@ new class extends Component
                             ${{ number_format((int) ($detail['quantity'] ?? 0) * (float) ($detail['unit_cost'] ?? 0), 2) }}
                         </td>
                         <td>
-                            @if($detail['is_applied'])
+                            @if($detail['id'] === null)
+                            <span class="badge bg-dark">Sin guardar</span>
+                            @elseif($detail['is_applied'])
                             <span class="badge bg-success">Aplicado</span>
                             @else
-                            <span class="badge bg-dark">Pendiente</span>
+                            <span class="badge bg-primary">Guardado</span>
                             @endif
                         </td>
                         <td>
@@ -311,11 +361,18 @@ new class extends Component
             </table>
         </div>
         <div class="col-12 mb-3">
-            <div class="d-flex justify-content-end align-items-center gap-2">
-                <button class="btn btn-dark" wire:click="applyDetails">Aplicar</button>
-                <button class="btn btn-primary" wire:click="pushDetail">Agregar</button>
-                <div class="vr"></div>
-                <button class="btn btn-success" wire:click="saveDetails">Guardar</button>
+            <div class="d-flex justify-content-between align-items-center gap-2">
+                <button class="btn btn-dark" wire:click="applyDetails" @disabled($this->hasUnsavedDetails())>Aplicar</button>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary" wire:click="pushDetail">Agregar</button>
+                    <div class="vr"></div>
+                    <button class="btn btn-success position-relative" wire:click="saveDetails">
+                        <span>Guardar</span>
+                        @if($this->hasUnsavedDetails())
+                        <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle"></span>
+                        @endif
+                    </button>
+                </div>
             </div>
         </div>
     </div>
