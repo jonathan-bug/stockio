@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 #[Fillable('barcode', 'name', 'sales_price', 'minimum_stock', 'is_active', 'category_id')]
 class Product extends Model
@@ -19,5 +20,10 @@ class Product extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function stock(): HasOne
+    {
+        return $this->hasOne(ProductStock::class);
     }
 }
