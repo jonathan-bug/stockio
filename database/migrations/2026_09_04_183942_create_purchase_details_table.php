@@ -24,8 +24,8 @@ return new class extends Migration
                 ->restrictOnDelete();
 
             $table->unsignedInteger('quantity');
-            $table->decimail('unit_cost', 10, 2);
-            $table->$table->boolean('is_applied')->default(false);
+            $table->decimal('unit_cost', 10, 2);
+            $table->boolean('is_applied')->default(false);
         });
     }
 
