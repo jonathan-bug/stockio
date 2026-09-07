@@ -79,6 +79,26 @@ new class extends Component
         $this->details = array_values($this->details);
     }
 
+    public function updateStatus()
+    {
+        $totalDetails = $this->purchase->details()->count();
+        $appliedDetails = $this->purchase->details()
+            ->where('is_applied', true)
+            ->count();
+
+        if ($totalDetails == 0) {
+            $status = 1;
+        } else if ($totalDetails == $appliedDetails) {
+            $status = 3;
+        } else {
+            $status = 2;
+        }
+
+        $this->purchase->update([
+            'status' => $status
+        ]);
+    }
+
     public function saveDetails()
     {
         $this->validate([
@@ -86,6 +106,17 @@ new class extends Component
             'details.*.quantity' => ['required', 'integer', 'min:1'],
             'details.*.unit_cost' => ['required', 'numeric', 'decimal:0,2', 'min:0']
         ]);
+
+        $currentDetails = collect($this->details)
+            ->pluck('id')
+            ->filter()
+            ->map(fn($id) => (int) $id)
+            ->toArray();
+
+        $this->purchase->details()
+            ->where('is_applied', false)
+            ->whereNotIn('id', $currentDetails)
+            ->delete();
 
         foreach ($this->details as $index => $detail) {
             if ($detail['is_applied']) {
@@ -115,6 +146,7 @@ new class extends Component
             'total' => $this->total
         ]);
 
+        $this->updateStatus();
         $this->dispatch('alert', message: 'Purchase details updated successfully');
     }
 
@@ -123,6 +155,31 @@ new class extends Component
         return collect($this->details)->sum(function ($detail) {
             return (int) ($detail['quantity'] ?? 0) * (float) ($detail['unit_cost'] ?? 0);
         });
+    }
+
+    public function applyDetails()
+    {
+        $details = $this->purchase->details()->where('is_applied', false)->get();
+        foreach ($details as $detail) {
+            $detail->update([
+                'is_applied' => true
+            ]);
+        }
+
+        $this->updateStatus();
+        $this->details = $this->purchase->details()
+            ->get()
+            ->map(function ($detail) {
+                return [
+                    'id' => $detail->id,
+                    'product_id' => $detail->product_id,
+                    'quantity' => $detail->quantity,
+                    'unit_cost' => $detail->unit_cost,
+                    'is_applied' => $detail->is_applied
+                ];
+            })->toArray();
+
+        $this->dispatch('alert', message: 'Purchase details applied successfully');
     }
 };
 ?>
@@ -164,7 +221,7 @@ new class extends Component
                     <div class="col-6">
                         <div class="form-group">
                             <label for="total" class="form-label">Costo total</label>
-                            <input id="total" type="text" class="form-control bg-light" value="{{ number_format($this->total, 2) }}" readonly>
+                            <input id="total" type="text" class="form-control bg-light" value="${{ number_format($this->total, 2) }}" readonly>
                         </div>
                     </div>
                     <div class="col-6">
@@ -255,7 +312,9 @@ new class extends Component
         </div>
         <div class="col-12 mb-3">
             <div class="d-flex justify-content-end align-items-center gap-2">
+                <button class="btn btn-dark" wire:click="applyDetails">Aplicar</button>
                 <button class="btn btn-primary" wire:click="pushDetail">Agregar</button>
+                <div class="vr"></div>
                 <button class="btn btn-success" wire:click="saveDetails">Guardar</button>
             </div>
         </div>

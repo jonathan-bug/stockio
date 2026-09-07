@@ -109,7 +109,7 @@ new class extends Component
                     <tr>
                         <th>Factura</th>
                         <th>Proveedor</th>
-                        <th>Total</th>
+                        <th>Costo total</th>
                         <th>Fecha</th>
                         <th>Estado</th>
                         <th>Acciones</th>
@@ -120,13 +120,13 @@ new class extends Component
                     <tr>
                         <td>{{ $purchase->invoice_number ?: '-' }}</td>
                         <td>{{ $purchase->supplier->name }}</td>
-                        <td>{{ $purchase->total }}</td>
+                        <td>${{ number_format($purchase->total, 2) }}</td>
                         <td>{{ $purchase->date }}</td>
                         <td>
                             @if($purchase->status == 1)
                             <span class="badge bg-dark">Pendiente</span>
                             @elseif($purchase->status == 2)
-                            <span class="badge bg-warning">Aplicada parcialmente</span>
+                            <span class="badge bg-secondary">Aplicada parcialmente</span>
                             @elseif($purchase->status == 3)
                             <span class="badge bg-success">Aplicada</span>
                             @endif

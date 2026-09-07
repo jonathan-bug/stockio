@@ -30,15 +30,15 @@ new class extends Component
             'date' => ['required', 'date']
         ]);
 
-        Purchase::create([
+        $purchase = Purchase::create([
             'invoice_number' => $this->invoice_number,
             'supplier_id' => $this->supplier,
-            'total' => $this->total,
+            'total' => 0,
             'date' => $this->date,
             'status' => 1
         ]);
 
-        $this->dispatch('alert', message: 'Purchase created successfully');
+        $this->redirect(route('purchases.edit', $purchase), true);
     }
 };
 ?>
@@ -77,16 +77,7 @@ new class extends Component
                             @enderror
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="total" class="form-label">Costo total</label>
-                            <input type="number" step="0.01" class="form-control" wire:model="total">
-                            @error('total')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-6">
+                    <div class="col-12">
                         <div class="form-group">
                             <label for="date" class="form-label">Fecha</label>
                             <input id="date" type="date" class="form-control" wire:model="date">
