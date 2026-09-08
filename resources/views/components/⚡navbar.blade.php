@@ -76,6 +76,12 @@ new class extends Component
                         <span>Compras</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('stock.index') }}" class="nav-link {{ request()->routeIs('stock.index') ? 'active' : '' }}" wire:navigate>
+                        <i class="fa fa-boxes-stacked"></i>
+                        <span>Existencias</span>
+                    </a>
+                </li>
             </ul>
 
             <!-- Logout -->
