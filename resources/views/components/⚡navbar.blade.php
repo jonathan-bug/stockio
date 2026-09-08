@@ -82,6 +82,12 @@ new class extends Component
                         <span>Existencias</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('kardex.index') }}" class="nav-link {{ request()->routeIs('kardex.index') ? 'active' : '' }}" wire:navigate>
+                        <i class="fa fa-list-check"></i>
+                        <span>Kardex</span>
+                    </a>
+                </li>
             </ul>
 
             <!-- Logout -->

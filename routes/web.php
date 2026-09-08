@@ -40,6 +40,9 @@ Route::middleware('auth')->group(function () {
 
   // Stock
   Route::livewire('/stock', 'pages::stock.index')->middleware('permission:stock.index')->name('stock.index');
+
+  // Kardex
+  Route::livewire('/kardex', 'pages::kardex.index')->middleware('permission:kardex.index')->name('kardex.index');
 });
 
 // Seguridad

@@ -62,7 +62,10 @@ class RolePermissionSeeder extends Seeder
             'purchases.delete',
 
             // Stock
-            'stock.index'
+            'stock.index',
+
+            // Kardex
+            'kardex.index'
         ];
 
         foreach ($permissions as $permission) {
