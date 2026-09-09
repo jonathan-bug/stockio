@@ -43,6 +43,9 @@ Route::middleware('auth')->group(function () {
 
   // Kardex
   Route::livewire('/kardex', 'pages::kardex.index')->middleware('permission:kardex.index')->name('kardex.index');
+
+  // Ventas
+  Route::livewire('/sales', 'pages::sales.index')->middleware('permission:sales.index')->name('sales.index');
 });
 
 // Seguridad

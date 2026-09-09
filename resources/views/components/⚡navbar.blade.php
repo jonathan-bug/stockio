@@ -88,6 +88,12 @@ new class extends Component
                         <span>Kardex</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('sales.index') }}" class="nav-link {{ request()->routeIs('sales.index') ? 'active' : '' }}" wire:navigate>
+                        <i class="fa fa-cash-register"></i>
+                        <span>Ventas</span>
+                    </a>
+                </li>
             </ul>
 
             <!-- Logout -->
