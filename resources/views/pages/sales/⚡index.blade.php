@@ -77,7 +77,13 @@ new class extends Component {
                         </td>
                         <td>{{ $sale->total }}</td>
                         <td>{{ $sale->created_at }}</td>
-                        <td></td>
+                        <td>
+                            <div class="d-flex justify-content-end">
+                                <a href="{{ route('sales.show', $sale) }}" class="btn btn-primary" wire:navigate>
+                                    <i class="fa fa-list"></i>
+                                </a>
+                            </div>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>

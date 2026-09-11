@@ -69,7 +69,8 @@ class RolePermissionSeeder extends Seeder
 
             // Sales
             'sales.index',
-            'sales.create'
+            'sales.create',
+            'sales.show'
         ];
 
         foreach ($permissions as $permission) {
