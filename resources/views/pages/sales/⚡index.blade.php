@@ -35,7 +35,7 @@ new class extends Component {
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center">
                 <h3>Gestión de ventas</h3>
-                <a href="" class="btn btn-primary">Agregar</a>
+                <a href="{{ route('sales.create') }}" class="btn btn-primary" wire:navigate>Agregar</a>
             </div>
             <hr>
         </div>

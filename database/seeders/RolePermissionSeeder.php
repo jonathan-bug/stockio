@@ -68,7 +68,8 @@ class RolePermissionSeeder extends Seeder
             'kardex.index',
 
             // Sales
-            'sales.index'
+            'sales.index',
+            'sales.create'
         ];
 
         foreach ($permissions as $permission) {

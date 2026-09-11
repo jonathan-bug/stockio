@@ -46,6 +46,7 @@ Route::middleware('auth')->group(function () {
 
   // Ventas
   Route::livewire('/sales', 'pages::sales.index')->middleware('permission:sales.index')->name('sales.index');
+  Route::livewire('/sales/create', 'pages::sales.create')->middleware('permission:sales.create')->name('sales.create');
 });
 
 // Seguridad
