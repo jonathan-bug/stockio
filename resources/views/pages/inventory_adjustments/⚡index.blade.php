@@ -60,7 +60,7 @@ new class extends Component {
                         <td>{{ $product->stock->quantity ?? 0 }}</td>
                         <td>
                             <div class="d-flex justify-content-end">
-                                <a href="" class="btn btn-secondary">
+                                <a href="{{ route('inventory_adjustments.create', $product) }}" class="btn btn-secondary" wire:navigate>
                                     <i class="fa fa-sliders"></i>
                                 </a>
                             </div>

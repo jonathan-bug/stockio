@@ -73,7 +73,8 @@ class RolePermissionSeeder extends Seeder
             'sales.show',
 
             // Inventory adjustments
-            'inventory_adjustments.index'
+            'inventory_adjustments.index',
+            'inventory_adjustments.create'
         ];
 
         foreach ($permissions as $permission) {
