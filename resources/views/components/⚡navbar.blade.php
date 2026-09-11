@@ -94,6 +94,12 @@ new class extends Component
                         <span>Ventas</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('inventory_adjustments.index') }}" class="nav-link {{ request()->routeIs('inventory_adjustments.index') ? 'active' : '' }}" wire:navigate>
+                        <i class="fa fa-scale-balanced"></i>
+                        <span>Ajustes de inventario</span>
+                    </a>
+                </li>
             </ul>
 
             <!-- Logout -->
