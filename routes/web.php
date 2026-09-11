@@ -48,6 +48,9 @@ Route::middleware('auth')->group(function () {
   Route::livewire('/sales', 'pages::sales.index')->middleware('permission:sales.index')->name('sales.index');
   Route::livewire('/sales/create', 'pages::sales.create')->middleware('permission:sales.create')->name('sales.create');
   Route::livewire('/sales/show/{sale}', 'pages::sales.show')->middleware('permission:sales.show')->name('sales.show');
+
+  // Ajustes de inventario
+  Route::livewire('/inventory_adjustments', 'pages::inventory_adjustments.index')->middleware('permission:inventory_adjustments.index')->name('inventory_adjustments.index');
 });
 
 // Seguridad
