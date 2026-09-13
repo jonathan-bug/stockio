@@ -55,6 +55,7 @@ Route::middleware('auth')->group(function () {
 
   // Cajas registradoras
   Route::livewire('/cash_registers', 'pages::cash_registers.index')->middleware('permission:cash_registers.index')->name('cash_registers.index');
+  Route::livewire('/cash_registers/create', 'pages::cash_registers.create')->middleware('permission:cash_registers.create')->name('cash_registers.create');
 });
 
 // Seguridad

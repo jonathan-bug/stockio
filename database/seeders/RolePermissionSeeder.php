@@ -78,6 +78,7 @@ class RolePermissionSeeder extends Seeder
 
             // Cash registers
             'cash_registers.index',
+            'cash_registers.create',
             'cash_registers.view_all'
         ];
 

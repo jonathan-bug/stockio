@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->decimal('initial_amount', 10, 2);
-            $table->decimal('closing_amount', 10, 2);
+            $table->decimal('closing_amount', 10, 2)->nullable();
 
             $table->timestamp('opened_at');
             $table->timestamp('closed_at')->nullable();

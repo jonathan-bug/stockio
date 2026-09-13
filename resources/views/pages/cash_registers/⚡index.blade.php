@@ -49,7 +49,7 @@ new class extends Component
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center">
                 <h3>Gestión de cajas registradoras</h3>
-                <button class="btn btn-primary">Abrir</button>
+                <a href="{{ route('cash_registers.create') }}" class="btn btn-primary">Abrir</a>
             </div>
             <hr>
         </div>
@@ -106,7 +106,7 @@ new class extends Component
                         <td>{{ $cash_register->user->name }}</td>
                         @endcan
                         <td>{{ $cash_register->opened_at }}</td>
-                        <td>{{ $cash_register->closed_at }}</td>
+                        <td>{{ $cash_register->closed_at ?: '-' }}</td>
                         <td>
                             @if($cash_register->status == 1)
                             <span class="badge bg-success">Abierta</span>
