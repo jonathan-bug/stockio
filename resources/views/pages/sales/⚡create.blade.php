@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\CashRegister;
 use App\Models\Kardex;
 use App\Models\Product;
 use App\Models\ProductStock;
@@ -22,6 +23,13 @@ new class extends Component {
     public $payment_method = '';
     public $payment_reference = '';
     public $payment_amount = 0;
+
+    public ?CashRegister $cashRegister = null;
+
+    public function mount()
+    {
+        $this->cashRegister = CashRegister::where('user_id', Auth::id())->where('status', 1)->first();
+    }
 
     public function updatedSearch()
     {
@@ -114,6 +122,11 @@ new class extends Component {
 
     public function validateProcess()
     {
+        if (!$this->cashRegister) {
+            $this->dispatch('alert', message: 'You must open a cash register before registering a sale', type: 'warning');
+            return;
+        }
+
         if (empty($this->cart)) {
             $this->dispatch('alert', message: 'The cart is empty', type: 'warning');
             return;
@@ -134,8 +147,6 @@ new class extends Component {
             return;
         }
 
-        $this->dispatch('alert', message: 'Payment validated successfully', type: 'success');
-
         try {
             DB::transaction(function () {
                 $paymentAmount = (int) $this->payment_method === 1 ? (float) $this->payment_amount : (float) $this->total;
@@ -146,7 +157,8 @@ new class extends Component {
                     'payment_method' => (int) $this->payment_method,
                     'payment_reference' => trim($this->payment_reference),
                     'payment_amount' => $paymentAmount,
-                    'payment_change' => $paymentChange
+                    'payment_change' => $paymentChange,
+                    'cash_register_id' => $this->cashRegister->id
                 ]);
 
                 foreach ($this->cart as $item) {

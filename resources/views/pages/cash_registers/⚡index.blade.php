@@ -49,7 +49,7 @@ new class extends Component
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center">
                 <h3>Gestión de cajas registradoras</h3>
-                <a href="{{ route('cash_registers.create') }}" class="btn btn-primary">Abrir</a>
+                <a href="{{ route('cash_registers.create') }}" class="btn btn-primary" wire:navigate>Abrir</a>
             </div>
             <hr>
         </div>
