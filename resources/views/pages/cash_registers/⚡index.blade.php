@@ -121,7 +121,7 @@ new class extends Component
                                     <i class="fa fa-lock"></i>
                                 </button>
                                 @endif
-                                <a href="" class="btn btn-primary">
+                                <a href="{{ route('cash_registers.show', $cash_register) }}" class="btn btn-primary" wire:navigate>
                                     <i class="fa fa-list"></i>
                                 </a>
                             </div>

@@ -92,9 +92,9 @@ new class extends Component
                             @endforeach
                         </tbody>
                     </table>
+                    <hr>
                 </div>
                 <div class="col-12 mb-4">
-                    <hr>
                     <table class="table-light table-borderless">
                         <tbody>
                             <tr>

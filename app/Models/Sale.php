@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable('total', 'payment_method', 'payment_reference', 'payment_amount', 'payment_change')]
+#[Fillable('total', 'payment_method', 'payment_reference', 'payment_amount', 'payment_change', 'cash_register_id')]
 class Sale extends Model
 {
     public function details(): HasMany
