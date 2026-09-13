@@ -100,6 +100,12 @@ new class extends Component
                         <span>Ajustes de inventario</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('cash_registers.index') }}" class="nav-link {{ request()->routeIs('cash_registers.index') ? 'active' : '' }}" wire:navigate>
+                        <i class="fa fa-coins"></i>
+                        <span>Cajas registradoras</span>
+                    </a>
+                </li>
             </ul>
 
             <!-- Logout -->

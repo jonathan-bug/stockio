@@ -52,6 +52,9 @@ Route::middleware('auth')->group(function () {
   // Ajustes de inventario
   Route::livewire('/inventory_adjustments', 'pages::inventory_adjustments.index')->middleware('permission:inventory_adjustments.index')->name('inventory_adjustments.index');
   Route::livewire('/inventory_adjustments/create/{product}', 'pages::inventory_adjustments.create')->middleware('permission:inventory_adjustments.create')->name('inventory_adjustments.create');
+
+  // Cajas registradoras
+  Route::livewire('/cash_registers', 'pages::cash_registers.index')->middleware('permission:cash_registers.index')->name('cash_registers.index');
 });
 
 // Seguridad
