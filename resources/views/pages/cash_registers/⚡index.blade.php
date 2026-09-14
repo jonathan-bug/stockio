@@ -117,9 +117,9 @@ new class extends Component
                         <td>
                             <div class="d-flex justify-content-end gap-2">
                                 @if($cash_register->status == 1 && $cash_register->user_id == Auth::id())
-                                <button class="btn btn-secondary">
+                                <a href="{{ route('cash_registers.close', $cash_register) }}" class="btn btn-secondary" wire:navigate>
                                     <i class="fa fa-lock"></i>
-                                </button>
+                                </a>
                                 @endif
                                 <a href="{{ route('cash_registers.show', $cash_register) }}" class="btn btn-primary" wire:navigate>
                                     <i class="fa fa-list"></i>

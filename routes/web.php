@@ -57,6 +57,7 @@ Route::middleware('auth')->group(function () {
   Route::livewire('/cash_registers', 'pages::cash_registers.index')->middleware('permission:cash_registers.index')->name('cash_registers.index');
   Route::livewire('/cash_registers/create', 'pages::cash_registers.create')->middleware('permission:cash_registers.create')->name('cash_registers.create');
   Route::livewire('/cash_registers/show/{cash_register}', 'pages::cash_registers.show')->middleware('permission:cash_registers.show')->name('cash_registers.show');
+  Route::livewire('/cash_registers/close/{cash_register}', 'pages::cash_registers.close')->middleware('permission:cash_registers.close')->name('cash_registers.close');
 });
 
 // Seguridad
