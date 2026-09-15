@@ -44,9 +44,8 @@ new class extends Component
             'status' => 2
         ]);
 
-        session()->flash('success', 'Cash register closed successfully');
-
-        return $this->redirectRoute('cash_registers.index', navigate: true);
+        session()->flash('success', '');
+        return $this->redirectRoute('cash_registers.show', $this->cash_register, navigate: true);
     }
 };
 ?>

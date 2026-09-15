@@ -10,6 +10,10 @@ new class extends Component
     public function mount(CashRegister $cash_register)
     {
         $this->cash_register = $cash_register;
+
+        if (session()->has('success')) {
+            $this->dispatch('alert', message: 'Cash register closed successfully');
+        }
     }
 
     public function getEffectiveTotalProperty()
@@ -58,6 +62,10 @@ new class extends Component
                     <tr>
                         <td>Fecha de apertura: </td>
                         <td>{{ $this->cash_register->opened_at }}</td>
+                    </tr>
+                    <tr>
+                        <td>Fecha de cierre: </td>
+                        <td>{{ $this->cash_register->closed_at ?? '-' }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -115,6 +123,26 @@ new class extends Component
                     <tr>
                         <td>Efectivo esperado</td>
                         <td>${{ number_format($this->effective_total + $this->cash_register->initial_amount, 2) }}</td>
+                    </tr>
+                    <tr>
+                        <td>Monto de cierre</td>
+                        <td>{{ $this->cash_register->closing_amount !== null ? '$' . number_format($this->cash_register->closing_amount, 2) : '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td>Diferencia</td>
+                        <td>
+                            @if($this->cash_register->closing_amount === null)
+                            -
+                            @elseif($this->cash_register->closing_amount - ($this->cash_register->initial_amount + $this->effective_total) >= 0)
+                            <span class="badge bg-success">
+                                {{ $this->cash_register->closing_amount !== null ? '$' . number_format($this->cash_register->closing_amount - ($this->cash_register->initial_amount + $this->effective_total), 2) : '-' }}
+                            </span>
+                            @else
+                            <span class="badge bg-danger">
+                                {{ $this->cash_register->closing_amount !== null ? '$' . number_format($this->cash_register->closing_amount - ($this->cash_register->initial_amount + $this->effective_total), 2) : '-' }}
+                            </span>
+                            @endif
+                        </td>
                     </tr>
                 </tbody>
             </table>
